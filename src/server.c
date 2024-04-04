@@ -6,11 +6,9 @@
 
 int encrypt_packet(packet* p, unsigned char* payload, long payload_len) {
 
-    crypto_secretstream_xchacha20poly1305_push(
+    return crypto_secretstream_xchacha20poly1305_push(
         &p->state, p->payload, NULL, payload, payload_len, NULL, 0, 0);
-    return 0;
 }
-
 
 int send_post_request(int sck, char* fn) {
 
@@ -48,7 +46,7 @@ int send_post_request(int sck, char* fn) {
     crypto_secretstream_xchacha20poly1305_init_push(&p.state, p.header,
                                                     (unsigned char*)key);
     for (offset = 0; offset < fsize; offset += BUF_READ_SIZE) {
-		wait_ack(sck, ack_buffer);
+        wait_ack(sck, ack_buffer);
 
         statusbar(offset, fsize, print_str);
         fread(buffer, BUF_READ_SIZE, 1, fptr);
