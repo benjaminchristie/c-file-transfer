@@ -57,6 +57,7 @@ int send_post_request(int sck, char* fn) {
 
         send(sck, byte_packet, HEADER_BYTES + CRYPT_SIZE, 0);
     }
+    wait_ack(sck, ack_buffer);
     printf("\n");
     fclose(fptr);
 
